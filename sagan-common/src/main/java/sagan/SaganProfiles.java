@@ -1,7 +1,5 @@
 package sagan;
 
-import org.springframework.core.env.ConfigurableEnvironment;
-
 /**
  * Spring profiles under which a {@link SaganApplication} can be run. If no profiles are
  * specified, the {@link #STANDALONE} profile will be implicitly activated, making
@@ -55,4 +53,10 @@ public final class SaganProfiles {
      * @see org.springframework.core.env.AbstractEnvironment#RESERVED_DEFAULT_PROFILE_NAME
      */
     public static final String STANDALONE = "default";
+
+    /**
+     * Profile to switch on collecting Spring Boot Actuator metrics inside Redis
+     * TODO: When confirmed, replace this with CLOUDFOUNDRY
+     */
+    public static final String REDISMETRICS = "redis-metrics";
 }

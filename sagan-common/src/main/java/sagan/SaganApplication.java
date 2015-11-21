@@ -33,6 +33,7 @@ public class SaganApplication extends SpringApplication {
         boolean standaloneActive = environment.acceptsProfiles(STANDALONE);
         boolean stagingActive = environment.acceptsProfiles(STAGING);
         boolean productionActive = environment.acceptsProfiles(PRODUCTION);
+        boolean redisMetrics = environment.acceptsProfiles(REDISMETRICS);
 
         if (stagingActive && productionActive) {
             throw new IllegalStateException(format("Only one of the following profiles may be specified: [%s]",
@@ -43,6 +44,9 @@ public class SaganApplication extends SpringApplication {
             logger.info(format("Activating '%s' profile because one of '%s' or '%s' profiles have been specified.",
                     CLOUDFOUNDRY, STAGING, PRODUCTION));
             environment.addActiveProfile(CLOUDFOUNDRY);
+        }
+        else if (redisMetrics) {
+            logger.info("Testing out Redis as the place for metrics!");
         }
         else if (standaloneActive) {
             logger.info("The default 'standalone' profile is active because no other profiles have been specified.");
