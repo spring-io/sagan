@@ -2,7 +2,7 @@ What's this?
 -----------------------------------
 
 Your project has a gh-pages branch that is probably (hopefully!) based on the shared
-gh-pages project at #{[push][repository][url]}. Some new commits just got pushed to that
+gh-pages project at #{[push][metadataRepository][url]}. Some new commits just got pushed to that
 shared repo, and that means it's probably a good idea to sync yours up with it. Here's
 what changed:
 

@@ -114,11 +114,11 @@ spring:
   resources:
     static_locations:
       - file:../sagan-client/src/
-  devtools:
-    restart:
-      additional_paths:
-        - ../sagan-client/src/
-      additional_exclude: "**/*.js,**/*.css"
+#  devtools:
+#    restart:
+#      additional_paths:
+#        - ../sagan-client/src/
+#      additional_exclude: "**/*.js,**/*.css"
 
 
 disqus_shortname: ${DISQUS_SHORTNAME:spring-io-localhost}

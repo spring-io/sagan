@@ -54,7 +54,7 @@ public class ProjectDocumentationIndexer implements Indexer<Project> {
             if (version.getApiDocUrl().isEmpty()) {
                 String message =
                         String.format(
-                                "Unable to index API doc for projet id '%s' and version '%s' since API doc URL is empty",
+                                "Unable to index API doc for project id '%s' and version '%s' since API doc URL is empty",
                                 project.getId(), version.getVersion());
                 logger.warn(message);
             } else {

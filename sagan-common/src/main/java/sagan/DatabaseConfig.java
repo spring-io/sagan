@@ -2,6 +2,7 @@ package sagan;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.context.annotation.Bean;
@@ -27,12 +28,15 @@ public abstract class DatabaseConfig {
 @Profile(SaganProfiles.STANDALONE)
 class StandaloneDatabaseConfig extends DatabaseConfig {
 
+    @Value("${standalone.datasource.url:jdbc:h2:mem:sagan;MODE=PostgreSQL}")
+    private String url ;
+
     @Bean
     public DataSource dataSource() {
         org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
 
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:sagan;MODE=PostgreSQL");
+        dataSource.setUrl(url);
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         dataSource.setValidationQuery("SELECT 1");

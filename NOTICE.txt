@@ -638,7 +638,7 @@ ant.jar
 jdom-1.0.zip\jdom-1.0\lib\xml-apis.jar\license\README.sax.txt
 
 All of the .java software and associated documentation about
-SAX in this repository are distributed freely in the
+SAX in this metadataRepository are distributed freely in the
 public domain.
 
 
@@ -1115,7 +1115,7 @@ public domain, as explained at http://creativecommons.org/publicdomain/zero/1.0/
 Rationale for copying:
 Guava targets JDK5, whose AbstractExecutorService class lacks the newTaskFor protected
 customization methods needed by MoreExecutors.listeningDecorator. This class is a copy of
-AbstractExecutorService from the JSR166 CVS repository. It contains the desired methods.
+AbstractExecutorService from the JSR166 CVS metadataRepository. It contains the desired methods.
 
 
 >>> hibernate-validator-4.3.0.final

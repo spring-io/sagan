@@ -1,18 +1,19 @@
 package sagan.projects.support;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import sagan.projects.Project;
+import sagan.projects.ProjectLabel;
 import sagan.projects.ProjectRelease;
 import saganx.AbstractIntegrationTests;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
-
-import org.junit.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 
 public class ProjectMetadataServiceTests extends AbstractIntegrationTests {
 
@@ -113,4 +114,20 @@ public class ProjectMetadataServiceTests extends AbstractIntegrationTests {
 
         repo.flush();
     }
+
+    @Test
+    public void testProjectsWithLabels() throws Exception {
+
+        Collection<ProjectLabel> labelsForProject = service.getProjectLabelsForProject("spring-framework");
+
+        assertThat(labelsForProject.size(), greaterThan(0));
+        assertThat("there should be a label 'web' among the project's labels",
+                labelsForProject
+                        .stream()
+                        .filter(pl -> pl.getLabel().equals("web"))
+                        .findAny()
+                        .map(x -> true)
+                        .orElse(false));
+    }
+
 }

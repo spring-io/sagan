@@ -1,15 +1,16 @@
 package sagan.projects.support;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-
-import java.io.IOException;
-
-import sagan.projects.Project;
-import sagan.support.JsonPController;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sagan.projects.Project;
+import sagan.support.JsonPController;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.HEAD;
 
 /**
  * Controller that handles ajax requests for project metadata, typically from the
@@ -28,9 +29,18 @@ class ProjectMetadataController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/{projectId}", method = { GET, HEAD })
+    @RequestMapping(method = {GET})
+    public List<Project> projects() {
+        return service.getProjectsWithLabels();
+    }
+
+    @RequestMapping(value = "/projects", method = {GET})
+    public List<String> projectIds() {
+        return service.getProjectIds();
+    }
+
+    @RequestMapping(value = "/{projectId}", method = {GET, HEAD})
     public Project projectMetadata(@PathVariable("projectId") String projectId) throws IOException {
         return service.getProject(projectId);
     }
-
 }

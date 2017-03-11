@@ -1,5 +1,13 @@
 package sagan.projects.support;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
+import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import saganx.AbstractIntegrationTests;
 
 import java.util.List;
@@ -7,19 +15,30 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Test;
-
-import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ProjectsMetadataApiTests extends AbstractIntegrationTests {
+
+    @Test
+    public void projectMetadata_ids() throws Exception {
+        ObjectMapper om = new ObjectMapper();
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/project_metadata/projects")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(mvcResult -> {
+                    String string = mvcResult.getResponse().getContentAsString();
+                    List<String> content = om.readValue(string, new TypeReference<List<String>>() {});
+                    MatcherAssert.assertThat( "this endpoint should return ids for all the projects",
+                            content.contains("spring-boot"));
+                });
+    }
 
     @Test
     public void projectMetadata_respondsWithJavascript() throws Exception {

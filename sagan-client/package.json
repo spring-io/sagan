@@ -35,7 +35,7 @@
       "eonasdan/bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker@0.0.10",
       "font-awesome": "github:FortAwesome/font-awesome@3.2.1",
       "gmaps": "npm:gmaps@^0.4.14",
-      "google-code-prettify": "github:tcollard/google-code-prettify@^1.0.4",
+      "google-code-prettify": "github:spencewood/google-code-prettify@^1.0.4",
       "jquery": "npm:jquery@^1.8.3",
       "jquery-timeago": "github:rmm5t/jquery-timeago@^1.4.1",
       "most": "npm:most@^0.2.0"
