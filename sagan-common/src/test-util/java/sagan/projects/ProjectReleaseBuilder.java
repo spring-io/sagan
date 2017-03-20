@@ -4,6 +4,7 @@ public class ProjectReleaseBuilder {
     private String versionName = "";
     private ProjectRelease.ReleaseStatus releaseStatus = null;
     private boolean current = false;
+    private String refDocMultiUrl = "";
     private String refDocUrl = "";
     private String apiDocUrl = "";
     private String groupId = "";
@@ -29,6 +30,11 @@ public class ProjectReleaseBuilder {
         return this;
     }
 
+    public ProjectReleaseBuilder refDocMultiUrl(String refDocMultiUrl) {
+        this.refDocMultiUrl = refDocMultiUrl;
+        return this;
+    }
+
     public ProjectReleaseBuilder apiDocUrl(String apiDocUrl) {
         this.apiDocUrl = apiDocUrl;
         return this;
@@ -45,6 +51,6 @@ public class ProjectReleaseBuilder {
     }
 
     public ProjectRelease build() {
-        return new ProjectRelease(versionName, releaseStatus, current, refDocUrl, apiDocUrl, groupId, artifactId);
+        return new ProjectRelease(versionName, releaseStatus, current, refDocUrl, refDocMultiUrl, apiDocUrl, groupId, artifactId);
     }
 }

@@ -37,6 +37,7 @@ public class ProjectRelease implements Comparable<ProjectRelease> {
     private ReleaseStatus releaseStatus;
     private boolean isCurrent;
     private String refDocUrl;
+    private String refDocMultiUrl;
     private String apiDocUrl;
     private String groupId;
     private String artifactId;
@@ -47,13 +48,14 @@ public class ProjectRelease implements Comparable<ProjectRelease> {
     }
 
     public ProjectRelease(String versionName, ReleaseStatus releaseStatus, boolean isCurrent, String refDocUrl,
-                          String apiDocUrl, String groupId, String artifactId) {
+                          String refDocMultiUrl, String apiDocUrl, String groupId, String artifactId) {
         setVersion(versionName);
         if (releaseStatus != null) {
             this.releaseStatus = releaseStatus;
         }
         this.isCurrent = isCurrent;
         this.refDocUrl = refDocUrl;
+        this.refDocMultiUrl = refDocMultiUrl;
         this.apiDocUrl = apiDocUrl;
         this.groupId = groupId;
         this.artifactId = artifactId;
@@ -109,6 +111,14 @@ public class ProjectRelease implements Comparable<ProjectRelease> {
         return !refDocUrl.isEmpty();
     }
 
+    public String getRefDocMultiUrl() {
+        return refDocMultiUrl;
+    }
+
+    public boolean hasRefDocMultiUrl() {
+        return !refDocMultiUrl.isEmpty();
+    }
+
     public String getApiDocUrl() {
         return apiDocUrl;
     }
@@ -145,6 +155,10 @@ public class ProjectRelease implements Comparable<ProjectRelease> {
 
     public void setRefDocUrl(String refDocUrl) {
         this.refDocUrl = refDocUrl;
+    }
+
+    public void setRefDocMultiUrl(String refDocMultiUrl) {
+        this.refDocMultiUrl = refDocMultiUrl;
     }
 
     public void setApiDocUrl(String apiDocUrl) {
@@ -226,7 +240,8 @@ public class ProjectRelease implements Comparable<ProjectRelease> {
     @Override
     public String toString() {
         return "ProjectRelease{" + "versionName='" + versionName + '\'' + ", release=" + releaseStatus
-                + ", refDocUrl='" + refDocUrl + '\'' + ", apiDocUrl='" + apiDocUrl + '\'' + '}';
+                + ", refDocUrl='" + refDocUrl + '\'' + ", refDocMultiUrl='" + refDocMultiUrl + '\''
+                + ", apiDocUrl='" + apiDocUrl + '\'' + '}';
     }
 
 }

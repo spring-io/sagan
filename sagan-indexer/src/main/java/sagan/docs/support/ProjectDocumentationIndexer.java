@@ -70,6 +70,8 @@ public class ProjectDocumentationIndexer implements Indexer<Project> {
                 CrawledWebDocumentProcessor refDocProcessor =
                         new CrawledWebDocumentProcessor(searchService, documentMapper);
                 crawlerService.crawl(refDocUrl, 1, refDocProcessor);
+
+                // TODO: want to index multi page ref docs??
             }
         }
     }

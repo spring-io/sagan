@@ -57,6 +57,7 @@ class ProjectAdminController {
                 ProjectRelease.ReleaseStatus.SNAPSHOT,
                 false,
                 "http://docs.spring.io/spring-new/docs/{version}/spring-new/htmlsingle/",
+                "http://docs.spring.io/spring-new/docs/{version}/spring-new/html/",
                 "http://docs.spring.io/spring-new/docs/{version}/javadoc-api/",
                 "org.springframework.new",
                 "spring-new");
@@ -93,6 +94,7 @@ class ProjectAdminController {
             String version = release.getVersion();
             release.setApiDocUrl(release.getApiDocUrl().replaceAll(version, VERSION_PLACEHOLDER));
             release.setRefDocUrl(release.getRefDocUrl().replaceAll(version, VERSION_PLACEHOLDER));
+            release.setRefDocMultiUrl(release.getRefDocMultiUrl().replaceAll(version, VERSION_PLACEHOLDER));
         }
 
         List<ProjectRelease> releases = project.getProjectReleases();
@@ -117,6 +119,7 @@ class ProjectAdminController {
             String version = release.getVersion();
             release.setApiDocUrl(release.getApiDocUrl().replaceAll(VERSION_PATTERN, version));
             release.setRefDocUrl(release.getRefDocUrl().replaceAll(VERSION_PATTERN, version));
+            release.setRefDocMultiUrl(release.getRefDocMultiUrl().replaceAll(VERSION_PATTERN, version));
 
         }
         service.save(project);

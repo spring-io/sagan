@@ -45,6 +45,7 @@
                         <td>Version</td>
                         <td>Current</td>
                         <td>Reference URL</td>
+                        <td>Reference URL (Multipage)</td>
                         <td>API URL</td>
                     </tr>
                   </thead>
@@ -55,6 +56,7 @@
                           <td><input type="text" th:field="*{projectReleases[__${releaseStat.index}__].version}" /></td>
                           <td><input type="checkbox" th:field="*{projectReleases[__${releaseStat.index}__].current}" value="true"/></td>
                           <td><input type="text" th:field="*{projectReleases[__${releaseStat.index}__].refDocUrl}" /></td>
+                          <td><input type="text" th:field="*{projectReleases[__${releaseStat.index}__].refDocMultiUrl}" /></td>
                           <td><input type="text" th:field="*{projectReleases[__${releaseStat.index}__].apiDocUrl}" /></td>
                       </tr>
                       <tr th:with="size=${project.projectReleases.size()}">
@@ -63,6 +65,7 @@
                           <td><input type="text" th:field="*{projectReleases[__${size}__].version}" /></td>
                           <td><input type="checkbox" th:field="*{projectReleases[__${size}__].current}" value="true"/></td>
                           <td><input type="text" th:field="*{projectReleases[__${size}__].refDocUrl}" /></td>
+                          <td><input type="text" th:field="*{projectReleases[__${size}__].refDocMultiUrl}" /></td>
                           <td><input type="text" th:field="*{projectReleases[__${size}__].apiDocUrl}" /></td>
                       </tr>
                   </tbody>

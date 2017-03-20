@@ -27,10 +27,13 @@ public class ProjectDocumentationIndexerTests {
 
     private List<ProjectRelease> documentationList = Arrays.asList(
             new ProjectRelease("3", GENERAL_AVAILABILITY, true, "http://reference.example.com/3",
-                    "http://api.example.com/3", "com.example", "example-framework"),
-            new ProjectRelease("2", SNAPSHOT, false, "http://reference.example.com/2", "http://api.example.com/2",
+                    "http://referencemulti.example.com/3", "http://api.example.com/3",
                     "com.example", "example-framework"),
-            new ProjectRelease("1", SNAPSHOT, false, "http://reference.example.com/1", "http://api.example.com/1",
+            new ProjectRelease("2", SNAPSHOT, false, "http://reference.example.com/2",
+                    "http://referencemulti.example.com/2", "http://api.example.com/2",
+                    "com.example", "example-framework"),
+            new ProjectRelease("1", SNAPSHOT, false, "http://reference.example.com/1",
+                    "http://referencemulti.example.com/1", "http://api.example.com/1",
                     "com.example", "example-framework")
             );
 
@@ -53,6 +56,20 @@ public class ProjectDocumentationIndexerTests {
         assertThatCrawlingIsDoneFor("http://reference.example.com/3", linkDepthLevel);
         assertThatCrawlingIsDoneFor("http://reference.example.com/2", linkDepthLevel);
         assertThatCrawlingIsDoneFor("http://reference.example.com/1", linkDepthLevel);
+    }
+
+    @Test
+    public void multipageReferenceDocsAreNOTIndexed() throws Exception {
+        service.indexItem(project);
+        int linkDepthLevel = 1;
+
+        // check multipages are NOT indexed
+        verify(crawlerService, never()).crawl(
+                eq("http://referencemulti.example.com/3"), eq(linkDepthLevel), any(CrawledWebDocumentProcessor.class));
+        verify(crawlerService, never()).crawl(
+                eq("http://referencemulti.example.com/2"), eq(linkDepthLevel), any(CrawledWebDocumentProcessor.class));
+        verify(crawlerService, never()).crawl(
+                eq("http://referencemulti.example.com/1"), eq(linkDepthLevel), any(CrawledWebDocumentProcessor.class));
     }
 
     @Test
