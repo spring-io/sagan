@@ -1,5 +1,7 @@
 package sagan.search.support;
 
+import sagan.search.service.SearchFacet;
+
 import java.util.List;
 import java.util.Stack;
 

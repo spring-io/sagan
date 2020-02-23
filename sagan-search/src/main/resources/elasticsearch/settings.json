@@ -1,0 +1,13 @@
+{
+  "index.analysis.analyzer.fulltext.tokenizer": "standard",
+  "index.analysis.analyzer.fulltext.char_filter.0": "html_strip",
+  "index.analysis.analyzer.fulltext.filter.0": "standard",
+  "index.analysis.analyzer.fulltext.filter.1": "stop",
+  "index.analysis.analyzer.fulltext.filter.2": "lowercase",
+  "index.analysis.analyzer.fulltext.filter.3": "asciifolding",
+  "index.analysis.analyzer.fulltext.filter.4": "porter_stem",
+  "index.analysis.analyzer.code_autocomplete.tokenizer": "code_ngram",
+  "index.analysis.tokenizer.code_ngram.type": "edgeNGram",
+  "index.analysis.tokenizer.code_ngram.min_gram": 2,
+  "index.analysis.tokenizer.code_ngram.max_gram": 20
+}

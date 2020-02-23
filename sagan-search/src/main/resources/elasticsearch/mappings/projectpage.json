@@ -1,0 +1,37 @@
+{
+  "projectpage": {
+    "properties": {
+      "path": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "title": {
+        "type": "string",
+        "store": "yes",
+        "analyzer": "simple"
+      },
+      "subTitle": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "summary": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "rawContent": {
+        "type": "string",
+        "store": "yes",
+        "term_vector": "with_positions_offsets",
+        "analyzer": "fulltext"
+      },
+      "facetPaths": {
+        "type": "string",
+        "store": "no",
+        "index": "not_analyzed"
+      }
+    }
+  }
+}

@@ -17,7 +17,6 @@ import org.springframework.util.Assert;
 
 import java.util.Properties;
 
-
 abstract class AbstractSearchClientConfig {
 
     private static Log logger = LogFactory.getLog(AbstractSearchClientConfig.class);
@@ -34,8 +33,7 @@ abstract class AbstractSearchClientConfig {
         String connectionUri = getSearchClientConnectionUri();
         logger.info("**** Elastic Search endpoint: " + connectionUri);
 
-        HttpClientConfig clientConfig = new HttpClientConfig
-                .Builder(connectionUri)
+        HttpClientConfig clientConfig = new HttpClientConfig.Builder(connectionUri)
                 .multiThreaded(true)
                 .gson(gson())
                 .build();
@@ -48,37 +46,42 @@ abstract class AbstractSearchClientConfig {
 }
 
 @Configuration
-@Profile(SaganProfiles.STANDALONE)
-class StandaloneSearchClientConfig extends AbstractSearchClientConfig {
+@Profile(SaganProfiles.JEST)
+class SearchClientConfiguration {
 
-    @Value("${elasticsearch.client.endpoint}")
-    private String endpoint;
+    @Configuration
+    @Profile(SaganProfiles.STANDALONE)
+    static class StandaloneSearchClientConfig extends AbstractSearchClientConfig {
 
-    @Override
-    protected String getSearchClientConnectionUri() {
-        return endpoint;
-    }
-}
+        @Value("${elasticsearch.client.endpoint}")
+        private String endpoint;
 
-@Configuration
-@Profile(SaganProfiles.CLOUDFOUNDRY)
-class CloudFoundrySearchClientConfig extends AbstractSearchClientConfig {
-
-    private final static String SAGAN_SEARCH_CONNECTION_URI_KEY = "cloud.services.sagan-search.connection.uri";
-
-    @Bean
-    public Cloud cloud() {
-        return new CloudFactory().getCloud();
+        @Override
+        protected String getSearchClientConnectionUri() {
+            return endpoint;
+        }
     }
 
+    @Configuration
+    @Profile(SaganProfiles.CLOUDFOUNDRY)
+    static class CloudFoundrySearchClientConfig extends AbstractSearchClientConfig {
 
-    @Override
-    protected String getSearchClientConnectionUri() {
-        Properties cloudProps = cloud().getCloudProperties();
+        private final static String SAGAN_SEARCH_CONNECTION_URI_KEY = "cloud.services.sagan-search.connection.uri";
 
-        String connectionUri = cloudProps.getProperty(SAGAN_SEARCH_CONNECTION_URI_KEY);
-        Assert.notNull(connectionUri, "ElasticSearch endpoint URI should not be null: "
-                + SAGAN_SEARCH_CONNECTION_URI_KEY);
-        return connectionUri;
+        @Bean
+        public Cloud cloud() {
+            return new CloudFactory().getCloud();
+        }
+
+        @Override
+        protected String getSearchClientConnectionUri() {
+            Properties cloudProps = cloud().getCloudProperties();
+
+            String connectionUri = cloudProps.getProperty(SAGAN_SEARCH_CONNECTION_URI_KEY);
+            Assert.notNull(connectionUri, "ElasticSearch endpoint URI should not be null: "
+                    + SAGAN_SEARCH_CONNECTION_URI_KEY);
+            return connectionUri;
+        }
     }
+
 }

@@ -4,13 +4,25 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import sagan.blog.Post;
+import sagan.blog.PostCategory;
+import sagan.blog.PostMovedException;
+import sagan.blog.PostNotFoundException;
+import sagan.search.service.SearchService;
+import sagan.support.DateFactory;
+import sagan.team.MemberProfile;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import sagan.blog.Post;
 import sagan.blog.PostCategory;
 import sagan.blog.PostMovedException;
 import sagan.blog.PostNotFoundException;
-import sagan.search.support.SearchService;
+import sagan.search.support.JestSearchService;
 import sagan.support.DateFactory;
 import sagan.team.MemberProfile;
 

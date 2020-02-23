@@ -1,5 +1,12 @@
 package sagan.site.blog;
 
+import sagan.blog.Post;
+import sagan.blog.PostBuilder;
+import sagan.search.service.SearchService;
+import sagan.search.types.SearchEntry;
+import sagan.support.DateFactory;
+import sagan.support.DateTestUtils;
+
 import java.util.Date;
 
 import org.junit.Before;
@@ -9,18 +16,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import sagan.blog.Post;
-import sagan.blog.PostBuilder;
-import sagan.search.support.SearchService;
-import sagan.search.types.SearchEntry;
-import sagan.support.DateFactory;
-import sagan.support.DateTestUtils;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BlogService_UpdatePostTests {

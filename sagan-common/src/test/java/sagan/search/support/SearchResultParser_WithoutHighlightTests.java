@@ -1,15 +1,21 @@
 package sagan.search.support;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import io.searchbox.client.JestResult;
+import sagan.search.service.SearchResult;
+import sagan.search.service.SearchResults;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import io.searchbox.client.JestResult;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

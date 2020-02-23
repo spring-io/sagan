@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+project:
+  artifactId: spring-search
+  name: spring-search
+  description: spring-search
+
+info:
+  build:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    description: ${project.description}
+  spring:
+    profiles: ${spring.profiles.active:default}
+  app:
+    name: ${vcap.application.name:sagan}:${vcap.application.instance_index:*}
+    start: ${vcap.application.start:N/A}
+
+spring:
+  main:
+    sources: sagan.search.service.SearchApplication
+
+elasticsearch:
+  client:
+    endpoint: ${ELASTICSEARCH_ENDPOINT:http://localhost:9200}
+    index: ${ELASTICSEARCH_INDEX:sagan}

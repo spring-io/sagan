@@ -1,6 +1,12 @@
-package sagan.search.support;
+package sagan.search.service;
 
-class SearchResult {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SearchResult {
     private final String type;
     private final String title;
     private final String subTitle;
@@ -9,6 +15,10 @@ class SearchResult {
     private final String id;
     private final String highlight;
     private final String originalSearchTerm;
+
+    SearchResult() {
+        this(null, null, null, null, null, null, null, null);
+    }
 
     public SearchResult(String id, String title, String subTitle, String summary, String path, String type,
                         String highlight, String originalSearchTerm) {

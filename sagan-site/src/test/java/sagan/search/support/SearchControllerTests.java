@@ -1,5 +1,9 @@
 package sagan.search.support;
 
+import sagan.search.service.SearchFacet;
+import sagan.search.service.SearchResult;
+import sagan.search.service.SearchResults;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +26,7 @@ import static org.mockito.Matchers.*;
 public class SearchControllerTests {
 
     @Mock
-    private SearchService searchService;
+    private JestSearchService searchService;
 
     private SearchController controller;
     private ExtendedModelMap model = new ExtendedModelMap();

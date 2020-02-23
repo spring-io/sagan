@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import sagan.search.support.SearchService;
+import sagan.search.support.JestSearchService;
 import sagan.search.types.SitePage;
 import sagan.team.MemberProfile;
 
@@ -20,7 +20,7 @@ public class TeamServiceTests {
     private TeamRepository teamRepository;
 
     @Mock
-    private SearchService searchService;
+    private JestSearchService searchService;
 
     @Mock
     private MemberProfileSearchEntryMapper mapper;

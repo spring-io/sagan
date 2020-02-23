@@ -1,0 +1,110 @@
+{
+  "from" : 0,
+  "size" : 10,
+  "query" : {
+    "filtered" : {
+      "query" : {
+        "bool" : {
+          "must" : {
+            "multi_match" : {
+              "query" : "spring boot",
+              "fields" : [ "title^3", "rawContent", "author" ],
+              "fuzziness" : 1,
+              "minimum_should_match" : "30%"
+            }
+          },
+          "should" : [ {
+            "term" : {
+              "current" : true
+            }
+          }, {
+            "term" : {
+              "_type" : "projectpage"
+            }
+          }, {
+            "match" : {
+              "title" : {
+                "query" : "spring boot",
+                "type" : "phrase",
+                "boost" : 3.0,
+                "slop" : 1
+              }
+            }
+          } ]
+        }
+      },
+      "filter" : {
+        "or" : {
+          "filters" : [ {
+            "range" : {
+              "publishAt" : {
+                "from" : null,
+                "to" : "now/d",
+                "include_lower" : true,
+                "include_upper" : true
+              }
+            }
+          }, {
+            "not" : {
+              "filter" : {
+                "type" : {
+                  "value" : "blogpost"
+                }
+              }
+            }
+          } ]
+        }
+      }
+    }
+  },
+  "post_filter" : {
+    "or" : {
+      "filters" : [ {
+        "and" : {
+          "filters" : [ {
+            "terms" : {
+              "facetPaths" : [ "Projects/Api", "Projects/Reference" ],
+              "execution" : "or"
+            }
+          }, {
+            "terms" : {
+              "facetPaths" : [ "Projects/Reactor Project/1.1.0.RELEASE" ],
+              "execution" : "or"
+            }
+          } ]
+        }
+      }, {
+        "terms" : {
+          "facetPaths" : [ "Blog/Engineering" ],
+          "execution" : "or"
+        }
+      } ]
+    }
+  },
+  "sort" : [ {
+    "_score" : { }
+  }, {
+    "publishAt" : {
+      "order" : "desc"
+    }
+  } ],
+  "facets" : {
+    "facet_paths_result" : {
+      "terms" : {
+        "field" : "facetPaths",
+        "size" : 100000,
+        "order" : "term"
+      }
+    }
+  },
+  "highlight" : {
+    "order" : "score",
+    "require_field_match" : false,
+    "fields" : {
+      "rawContent" : {
+        "fragment_size" : 300,
+        "number_of_fragments" : 1
+      }
+    }
+  }
+}

@@ -1,14 +1,24 @@
-package sagan.search.support;
+package sagan.search.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class SearchFacet {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SearchFacet {
     private String path;
     private String name;
     private int count;
     private List<SearchFacet> facets;
     private List<SearchFacet> headerFacets = new ArrayList<>();
+    
+    SearchFacet() {
+        this(null, null, 0);
+    }
 
     public SearchFacet(String path, String name, int count) {
         this(path, name, count, new ArrayList<>());

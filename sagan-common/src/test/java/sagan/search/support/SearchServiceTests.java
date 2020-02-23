@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class SearchServiceTests {
 
     private JestClient jestClient = mock(JestClient.class);
-    private SearchService searchService = new SearchService(jestClient, mock(SearchResultParser.class), new Gson());
+    private JestSearchService searchService = new JestSearchService(jestClient, mock(SearchResultParser.class), new Gson());
     private SearchEntry entry;
 
     @Before

@@ -23,6 +23,7 @@ dist/
 .project
 # > ignore all eclipse settings by default
 .settings
+.attach_pid*
 # > except the following, primarily for formatting purposes
 !.settings/org.eclipse.jdt.core.prefs
 !.settings/org.eclipse.jdt.ui.prefs

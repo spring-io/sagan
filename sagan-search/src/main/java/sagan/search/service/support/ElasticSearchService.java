@@ -1,6 +1,23 @@
-package sagan.search.support;
+package sagan.search.service.support;
 
-import com.google.gson.Gson;
+import sagan.search.service.SearchException;
+import sagan.search.service.SearchResults;
+import sagan.search.service.SearchService;
+import sagan.search.types.SearchEntry;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.elasticsearch.index.query.FilteredQueryBuilder;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import io.searchbox.action.Action;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
@@ -8,26 +25,16 @@ import io.searchbox.core.Delete;
 import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import sagan.search.SearchException;
-import sagan.search.types.SearchEntry;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class SearchService {
+public class ElasticSearchService implements SearchService {
 
-    private static Log logger = LogFactory.getLog(SearchService.class);
+    private static Log logger = LogFactory.getLog(ElasticSearchService.class);
 
     private final JestClient jestClient;
-    private final Gson gson;
+    private final ObjectMapper mapper;
 
     private boolean useRefresh = false;
     private SearchResultParser searchResultParser;
@@ -36,18 +43,20 @@ public class SearchService {
     private String index;
 
     @Autowired
-    public SearchService(JestClient jestClient, SearchResultParser searchResultParser, Gson gson) {
+    public ElasticSearchService(JestClient jestClient, SearchResultParser searchResultParser, ObjectMapper mapper) {
         this.jestClient = jestClient;
         this.searchResultParser = searchResultParser;
-        this.gson = gson;
+        this.mapper = mapper;
     }
 
     public String getIndexName() {
         return index;
     }
 
+    @Override
     public void saveToIndex(SearchEntry entry) {
-        Index.Builder indexEntryBuilder = new Index.Builder(entry).id(entry.getId()).index(index).type(entry.getType());
+        Index.Builder indexEntryBuilder = new Index.Builder(mapper.convertValue(entry, Map.class)).id(entry.getId())
+                .index(index).type(entry.getType());
 
         if (useRefresh) {
             indexEntryBuilder.refresh(true);
@@ -56,17 +65,16 @@ public class SearchService {
         execute(indexEntryBuilder.build());
     }
 
+    @Override
     public SearchResults search(String term, Pageable pageable, List<String> filter) {
         Search.Builder searchBuilder;
         if (StringUtils.isEmpty(term)) {
             searchBuilder = SaganQueryBuilders.forEmptyQuery(pageable, filter);
-        }
-        else {
+        } else {
             searchBuilder = SaganQueryBuilders.fullTextSearch(term, pageable, filter);
         }
         searchBuilder.addIndex(index);
         Search search = searchBuilder.build();
-        logger.debug(search.getData(this.gson));
         JestResult jestResult = execute(search);
         return searchResultParser.parseResults(jestResult, pageable, term);
     }
@@ -90,7 +98,7 @@ public class SearchService {
         execute(new DeleteByQuery.Builder(query).build());
     }
 
-    private JestResult execute(Action action) {
+    private JestResult execute(Action<?> action) {
         try {
             JestResult result = jestClient.execute(action);
             logger.debug(result.getJsonString());

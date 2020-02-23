@@ -1,5 +1,7 @@
 package sagan;
 
+import sagan.search.service.SearchService;
+
 import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
@@ -54,4 +56,10 @@ public final class SaganProfiles {
      * @see sagan.StandaloneDatabaseConfig
      */
     public static final String STANDALONE = "standalone";
+
+    /**
+     * A profile that activates the internal {@link SearchService} based on Jest.
+     *
+     */
+    public static final String JEST = "jest";
 }

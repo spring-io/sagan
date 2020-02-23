@@ -1,5 +1,7 @@
 package sagan.search.support;
 
+import sagan.search.service.SearchResult;
+
 public class SearchResultBuilder {
 
     private String title = "A random title";

@@ -1,0 +1,62 @@
+{
+  "apidoc": {
+    "properties": {
+      "path": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "title": {
+        "type": "string",
+        "store": "yes",
+        "analyzer": "simple"
+      },
+      "subTitle": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "summary": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "rawContent": {
+        "type": "string",
+        "store": "yes",
+        "term_vector": "with_positions_offsets",
+        "analyzer": "fulltext"
+      },
+      "facetPaths": {
+        "type": "string",
+        "store": "no",
+        "index": "not_analyzed"
+      },
+      "packageName": {
+        "type": "string",
+        "store": "yes",
+        "analyzer": "code_autocomplete"
+      },
+      "className": {
+        "type": "string",
+        "store": "yes",
+        "analyzer": "code_autocomplete"
+      },
+      "current": {
+        "type": "boolean",
+        "store": "yes",
+        "index": "not_analyzed"
+      },
+      "version": {
+        "type": "string",
+        "store": "yes",
+        "index": "not_analyzed"
+      },
+      "projectId": {
+        "type": "string",
+        "store": "yes",
+        "index": "not_analyzed"
+      }
+    }
+  }
+}

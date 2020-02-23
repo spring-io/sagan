@@ -29,7 +29,7 @@ import com.google.gson.JsonParser;
 
 public class SearchIndexSetup {
 
-    private static Log logger = LogFactory.getLog(SearchService.class);
+    private static Log logger = LogFactory.getLog(JestSearchService.class);
     private final JestClient jestClient;
     private String index;
 

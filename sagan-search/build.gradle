@@ -1,0 +1,57 @@
+buildscript {
+	ext.springRepo = 'https://repo.spring.io/libs-release'
+	repositories {
+		mavenCentral()
+		maven { url springRepo }
+	}
+	dependencies {
+		classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.18.RELEASE'
+	}
+}
+
+plugins {
+	id 'java'
+}
+
+apply plugin: 'org.springframework.boot'
+
+group = 'io.spring.sagan'
+version = "1.0.0.BUILD-SNAPSHOT"
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+ext['elasticsearch.version'] = '1.7.1'
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.boot:spring-boot-dependencies:1.5.18.RELEASE")
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:Edgware.SR5")
+	}
+}
+
+dependencies {
+
+    compile (project(':sagan-common')) {
+        exclude group: '*'
+    }
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.data:spring-data-commons"
+
+    compile 'org.elasticsearch:elasticsearch'
+    compile 'io.searchbox:jest:0.1.7'
+    compile 'commons-codec:commons-codec' // needed by Jest's HTTP client?
+    compile 'org.springframework.cloud:spring-cloud-spring-service-connector'
+    compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector'
+
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
+    testCompile "org.springframework.cloud:spring-cloud-contract-wiremock"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+
+    // pick up common test utility classes
+    testCompile project(':sagan-common').sourceSets.testUtil.output
+}
