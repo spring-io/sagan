@@ -30,7 +30,17 @@ $(document).ready(function () {
         $('li#search').toggleClass('close');
         $('#searchheaderform input').focus();
     });
-    
+
+    // Anchor
+    $('body.guide main h2[id], body.guide main h3[id], body.guide main h4[id]').each(function() {
+        var id = $(this).attr('id');
+        var anchor = $('<a />').attr('href', '#' + id)
+            .addClass('anchor')
+            .text('§');
+        $(this).append(anchor);
+    });
+
+
     $('pre.prettyprint').each(function () {
         var _this = $(this);
         var button = $('<button />')

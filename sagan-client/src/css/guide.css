@@ -143,3 +143,26 @@ h2[id*=reveal].open:before {
     width: auto;
     overflow: auto;
 }
+
+.guide h2, .guide h3, .guide h4 {
+    position: relative;
+}
+
+.guide h2:hover .anchor, .guide h3:hover .anchor, .guide h4:hover .anchor {
+    display: block;
+}
+
+.guide .anchor {
+    position: absolute;
+    color: #888;
+    display: none;
+    top: -2px;
+    left: -30px;
+    padding-left: 10px;
+    width: 20px;
+    transition: color .2s;
+}
+
+.guide .anchor:hover {
+    color: #086dc3;
+}
