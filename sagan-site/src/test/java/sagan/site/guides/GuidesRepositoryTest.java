@@ -1,15 +1,15 @@
 package sagan.site.guides;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import sagan.SiteProperties;
 import sagan.site.renderer.SaganRendererClient;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;

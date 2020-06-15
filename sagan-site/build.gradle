@@ -95,7 +95,7 @@ dependencies {
 
     // for use in mocking http interactions
     testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
-    testCompile "org.springframework.cloud:spring-cloud-contract-wiremock"
+    testCompile "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
     testCompile "org.springframework.boot:spring-boot-starter-test"
 
 }

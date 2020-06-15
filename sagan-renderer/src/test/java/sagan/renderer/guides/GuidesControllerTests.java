@@ -10,6 +10,7 @@ import sagan.renderer.github.GithubResourceNotFoundException;
 import sagan.renderer.github.Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests for {@link GuidesController}
  */
 @RunWith(SpringRunner.class)
+@AutoConfigureRestDocs(outputDir = "build/snippets")
 @WebMvcTest(GuidesController.class)
 public class GuidesControllerTests {
 
@@ -69,11 +72,12 @@ public class GuidesControllerTests {
 				.andExpect(jsonPath("$._embedded.guides[0].name").value("rest-service"))
 				.andExpect(jsonPath("$._embedded.guides[0].projects[0]").value("spring-boot"))
 				.andExpect(hasLink("$._embedded.guides[0]._links", "self",
-						"http://localhost/guides/getting-started/rest-service"))
+						"http://localhost:8080/guides/getting-started/rest-service"))
 				.andExpect(jsonPath("$._embedded.guides[1].name").value("securing-web"))
 				.andExpect(jsonPath("$._embedded.guides[1].projects").isEmpty())
 				.andExpect(hasLink("$._embedded.guides[1]._links", "self",
-						"http://localhost/guides/getting-started/securing-web"));
+						"http://localhost:8080/guides/getting-started/securing-web"))
+				.andDo(document("guides"));
 	}
 
 	@Test
@@ -120,18 +124,12 @@ public class GuidesControllerTests {
 				.andExpect(jsonPath("$.sshUrl").value("git@example.org:spring-guides/gs-rest-service.git"))
 				.andExpect(jsonPath("$.cloneUrl").value("https://example.org/spring-guides/gs-rest-service.git"))
 				.andExpect(jsonPath("$.projects[0]").value("spring-boot"))
-				.andExpect(hasLink("self", "http://localhost/guides/getting-started/rest-service"));
+				.andExpect(hasLink("self", "http://localhost:8080/guides/getting-started/rest-service"))
+				.andDo(document("guide-rest-service"));
 	}
 
 	@Test
 	public void fetchUnknownGuide() throws Exception {
-		Repository securingWeb = new Repository(15L, "gs-securing-web",
-				"spring-guides/gs-securing-web", "Securing Web :: Securing a Web Application",
-				"http://example.org/spring-guides/gs-securing-web",
-				"git://example.org/spring-guides/gs-securing-web.git",
-				"git@example.org:spring-guides/gs-securing-web.git",
-				"https://example.org/spring-guides/gs-securing-web.git",
-				null);
 		given(this.githubClient.fetchOrgRepository("spring-guides", "gs-rest-service"))
 				.willThrow(new GithubResourceNotFoundException("spring-guides", "gs-rest-service",
 						new HttpClientErrorException(HttpStatus.NOT_FOUND)));
@@ -152,8 +150,9 @@ public class GuidesControllerTests {
 				.andExpect(jsonPath("$.content").value("content"))
 				.andExpect(jsonPath("$.tableOfContents").value("toc"))
 				.andExpect(jsonPath("$.pushToPwsMetadata").value(Matchers.containsString("directory: complete")))
-				.andExpect(hasLink("self", "http://localhost/guides/getting-started/rest-service/content"))
-				.andExpect(hasLink("guide", "http://localhost/guides/getting-started/rest-service"));
+				.andExpect(hasLink("self", "http://localhost:8080/guides/getting-started/rest-service/content"))
+				.andExpect(hasLink("guide", "http://localhost:8080/guides/getting-started/rest-service"))
+				.andDo(document("content-rest-service"));
 	}
 
 	@Test

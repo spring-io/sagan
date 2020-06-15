@@ -17,6 +17,9 @@ bootJar {
 	requiresUnpack '**/jruby-complete-*.jar'
 	requiresUnpack '**/asciidoctorj-*.jar'
 }
+ext {
+	springCloudVersion = 'Greenwich.SR1'
+}
 
 dependencies {
 	implementation 'org.pegdown:pegdown:1.6.0'
@@ -31,5 +34,37 @@ dependencies {
 	runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+task stubsJar(type: Jar, dependsOn: ['copySnippets']) {
+	baseName = project.name
+	classifier = 'stubs'
+	from project.file("${project.buildDir}/stubs")
+}
+
+artifacts {
+	archives stubsJar
+}
+
+task copySnippets(type: Copy, dependsOn: test) {
+	from "${project.buildDir}/snippets/stubs"
+	into "${project.buildDir}/stubs/META-INF/${project.group}/${project.name}/${project.version}/mappings"
+	// In lieu of https://github.com/spring-cloud/spring-cloud-contract/issues/1088 (for rendering _links)
+	filter { String line -> line.replace(
+		// When Spring Cloud Contract is upgraded can use localhost:{{request.requestLine.port}} 
+		'localhost:8080', '{{request.headers.Host}}'
+	).replace(
+		'"response" : {', '"response" : {"transformers": ["response-template"],'
+	).replace(
+		// TODO: see if Wiremock can match the content type better
+		';charset=UTF-8', ''
+	)}
+}
