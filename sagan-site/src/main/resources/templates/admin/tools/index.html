@@ -34,31 +34,29 @@
     </table>
 </div>
 
-  <div layout:fragment="content" class="container">
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div id="content" class="span12">
+            <h2>Platforms</h2>
+            <table class='table'>
+                <tr th:each="platform : ${platforms}">
+                    <td th:text="${platform.id}">eclipse</td>
+                    <td>
+                        <a th:href="@{'/admin/tools/' + ${platform.id}}">Edit</a>
+                    </td>
+                    <td>
+                        <form th:action="@{'/admin/tools/' + ${platform.id}}" action="/admin/tools/init" method="post" class='form-inline'>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input type="submit" class="btn" value="Delete"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-      <div class="row">
-          <div id="content" class="span12">
-              <h2>Platforms</h2>
-              <table class='table'>
-                  <tr th:each="platform : ${platforms}">
-                      <td th:text="${platform.id}">eclipse</td>
-                      <td>
-                          <a th:href="@{'/admin/tools/' + ${platform.id}}">Edit</a>
-                      </td>
-                      <td>
-                          <form th:action="@{'/admin/tools/' + ${platform.id}}" action="/admin/tools/init" method="post" class='form-inline'>
-                              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                              <input type="hidden" name="_method" value="delete"/>
-                              <input type="submit" class="btn" value="Delete"/>
-                          </form>
-                      </td>
-                  </tr>
-              </table>
-          </div>
-
-          <div id="sidebar" class="span4">
-          </div>
-      </div>
+        <div id="sidebar" class="span4">
+        </div>
     </div>
 </div>
 </body>
