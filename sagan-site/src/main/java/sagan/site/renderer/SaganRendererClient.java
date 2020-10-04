@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
 import sagan.SiteProperties;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import sagan.support.ResourceNotFoundException;
 
 @Component
 public class SaganRendererClient {
@@ -52,16 +55,30 @@ public class SaganRendererClient {
 	}
 
 	public GuideMetadata fetchGettingStartedGuide(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("getting-started").withParameter("guide", name))
-				.toObject(GuideMetadata.class);
+		try{
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("getting-started").withParameter("guide", name))
+					.toObject(GuideMetadata.class);
+		}catch(HttpStatusCodeException ex){
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+		}
 	}
 
 	public GuideContent fetchGettingStartedGuideContent(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("getting-started").withParameter("guide", name))
-				.follow("content")
-				.toObject(GuideContent.class);
+		try {
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("getting-started").withParameter("guide", name))
+					.follow("content")
+					.toObject(GuideContent.class);
+		} catch (HttpStatusCodeException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+		}
 	}
 
 	public GuideMetadata[] fetchTutorialGuides() {
@@ -71,16 +88,30 @@ public class SaganRendererClient {
 	}
 
 	public GuideMetadata fetchTutorialGuide(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("tutorial").withParameter("guide", name))
-				.toObject(GuideMetadata.class);
+		try {
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("tutorial").withParameter("guide", name))
+					.toObject(GuideMetadata.class);
+		} catch (HttpStatusCodeException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+		}
 	}
 
 	public GuideContent fetchTutorialGuideContent(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("tutorial").withParameter("guide", name))
-				.follow("content")
-				.toObject(GuideContent.class);
+		try {
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("tutorial").withParameter("guide", name))
+					.follow("content")
+					.toObject(GuideContent.class);
+		} catch (HttpStatusCodeException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+		}
 	}
 
 	public GuideMetadata[] fetchTopicalGuides() {
@@ -90,16 +121,31 @@ public class SaganRendererClient {
 	}
 
 	public GuideMetadata fetchTopicalGuide(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("topical").withParameter("guide", name))
-				.toObject(GuideMetadata.class);
+		try {
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("topical").withParameter("guide", name))
+					.toObject(GuideMetadata.class);
+		} catch (HttpStatusCodeException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+		}
 	}
 
 	public GuideContent fetchTopicalGuideContent(String name) {
-		return this.traverson.follow("guides")
-				.follow(Hop.rel("topical").withParameter("guide", name))
-				.follow("content")
-				.toObject(GuideContent.class);
+		try {
+			return this.traverson.follow("guides")
+					.follow(Hop.rel("topical").withParameter("guide", name))
+					.follow("content")
+					.toObject(GuideContent.class);
+		} catch (HttpStatusCodeException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+				throw new ResourceNotFoundException(name + " not found");
+			}
+			throw ex;
+
+		}
 	}
 
 	public String renderMarkdown(String markup) {
