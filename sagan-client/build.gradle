@@ -1,23 +1,37 @@
+import org.gradle.api.tasks.PathSensitivity
+
 plugins {
-	id 'com.github.node-gradle.node' version '2.2.3'
+	id 'com.github.node-gradle.node' version '3.0.0-rc7'
 	id 'java'
 }
 
 node {
 	version = '14.4.0'
 	npmVersion = '6.14.4'
-    download = true
+	download = true
 }
 
-def jsBuildDir = project.buildDir.absolutePath + '/dist'
+def npmBuild = project.tasks.register('npmRunBuild', NpmTask) {
+	args.addAll(['run', 'build'])
+	dependsOn 'npmInstall'
+
+	// Add inputs, this enables up-to-date checks
+	inputs.dir(project.file('src'))
+		.withPathSensitivity(PathSensitivity.RELATIVE)
+	inputs.file(project.file('webpack.config.js'))
+		.withPropertyName("webpack.config.js")
+	inputs.file(project.file('package.json'))
+		.withPropertyName("package.json")
+
+	// Add output, this lets us reference the task in the jar from()
+	outputs.dir("${project.buildDir}/dist")
+		.withPropertyName("dist")
+}
 
 jar {
-	from jsBuildDir
+	from npmBuild
 	eachFile { details ->
 		details.path = details.path.startsWith('META-INF') ?: 'static/'+details.path
 	}
 	includeEmptyDirs = false
 }
-
-npm_run_build.dependsOn(npm_install)
-jar.dependsOn npm_run_build
